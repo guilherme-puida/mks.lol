@@ -154,10 +154,9 @@ func main() {
 	urlFlag := flag.String("url", "mks.lol", "url used in rendered templates")
 	portFlag := flag.Uint("port", 8080, "port that will listen for all requests")
 	httpsFlag := flag.Bool("https", false, "use https instead of http in rendered templates")
+	flag.Parse()
 
 	options = serverOptions{url: *urlFlag, port: *portFlag, https: *httpsFlag}
-
-	flag.Parse()
 
 	ticker := time.NewTicker(5 * time.Minute)
 
