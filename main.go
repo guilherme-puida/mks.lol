@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	_ "embed"
 	"flag"
 	"fmt"
@@ -14,6 +15,9 @@ import (
 
 //go:embed content/index.tmpl
 var tmpl string
+
+//go:embed content/favicon.ico
+var favicon []byte
 
 var indexTemplate *template.Template
 
@@ -44,9 +48,10 @@ type renderData struct {
 }
 
 type serverOptions struct {
-	url   string
-	port  uint
-	https bool
+	url       string
+	port      uint
+	https     bool
+	startTime time.Time
 }
 
 // database is the data storage for the application. It maps a slug (a shortened link) to a dataEntry.
@@ -89,6 +94,8 @@ func requestHandler(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case "/":
 			indexTemplate.Execute(w, renderData{BaseUrl: options.url})
+		case "/favicon.ico":
+			http.ServeContent(w, r, "favicon.ico", options.startTime, bytes.NewReader(favicon))
 		default:
 			entry, ok := database[strings.TrimPrefix(r.URL.Path, "/")]
 			if !ok {
@@ -156,7 +163,7 @@ func main() {
 	httpsFlag := flag.Bool("https", false, "use https instead of http in rendered templates")
 	flag.Parse()
 
-	options = serverOptions{url: *urlFlag, port: *portFlag, https: *httpsFlag}
+	options = serverOptions{url: *urlFlag, port: *portFlag, https: *httpsFlag, startTime: time.Now()}
 
 	ticker := time.NewTicker(5 * time.Minute)
 
