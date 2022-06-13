@@ -57,6 +57,7 @@ var durationMap map[string]time.Duration
 
 var options serverOptions
 
+// insertEntry inserts an entry in the database.
 func insertEntry(link string, expiresIn time.Duration) string {
 	var slug string
 
@@ -72,6 +73,8 @@ func insertEntry(link string, expiresIn time.Duration) string {
 	return slug
 }
 
+// generateShortUrl generates a complete url based on the service's base url, a slug,
+// and whether the requests are being made over https or http.
 func generateShortUrl(slug string) string {
 	if options.https {
 		return fmt.Sprintf("https://%s/%s", options.url, slug)
@@ -80,6 +83,7 @@ func generateShortUrl(slug string) string {
 
 }
 
+// requestHandler switches on requests to determine which action should be taken.
 func requestHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
 		switch r.URL.Path {
