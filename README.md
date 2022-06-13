@@ -25,6 +25,7 @@ There is a public instance running at [https://mks.lol/](https://mks.lol/), and 
 
 ```shell
 $ git clone https://github.com/guilherme-puida/mks.lol.git
+$ cd mks.lol
 $ go build
 $ ./mks.lol -h
 Usage of ./mks.lol:
