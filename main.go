@@ -5,7 +5,6 @@ import (
 	"flag"
 	"fmt"
 	"html/template"
-	"log"
 	"math/rand"
 	"net/http"
 	"strconv"
@@ -138,16 +137,13 @@ func init() {
 }
 
 // deleteOldEntries handles deleting entries that have already expired.
-func deleteOldEntries() (deleted int) {
+func deleteOldEntries() {
 
 	for k, v := range database {
 		if v.createdAt.Add(v.expiresIn).Before(time.Now()) {
-			deleted++
 			delete(database, k)
 		}
 	}
-
-	return deleted
 }
 
 func main() {
@@ -164,13 +160,11 @@ func main() {
 		for {
 			select {
 			case <-ticker.C:
-				deleted := deleteOldEntries()
-				log.Printf("Deleted %d entries. There are now %d entries in the database.\n", deleted, len(database))
+				deleteOldEntries()
 			}
 		}
 	}()
 
-	log.Printf("Service listening on port :%d.", options.port)
 	http.HandleFunc("/", requestHandler)
 	http.ListenAndServe(fmt.Sprintf(":%d", options.port), nil)
 }
