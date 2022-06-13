@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
+    <title>mks.lol | ephemeral link shortener</title>
+</head>
+<body>
+
+<main class="container">
+    <hgroup>
+        <h1>{{ .BaseUrl }}</h1>
+        <h2>ephemeral link shortener</h2>
+    </hgroup>
+
+    {{ if .IsSuccess }}
+    <p>
+        <b>Your short link is <a href="{{ .ShortUrl }}" target="_blank">{{ .ShortUrl }}</a></b>
+    </p>
+    {{ end }}
+
+    {{ if .IsError }}
+    <p>
+        <b>Something went wrong:</b> {{ .ErrorMessage }}
+    </p>
+    {{ end }}
+
+    <hr>
+
+    <form action="/" method="post">
+        <div class="grid">
+            <label for="link">
+                Link
+                <input type="url" name="link" id="link" placeholder="https://example.com" required>
+            </label>
+            <label for="expiresIn">
+                <span>Duration</span>
+                <select name="expiresIn" id="expiresIn">
+                    <option value="5min" selected>5 minutes</option>
+                    <option value="15min">15 minutes</option>
+                    <option value="30min">30 minutes</option>
+                    <option value="1h">1 hour</option>
+                    <option value="6h">6 hours</option>
+                    <option value="12h">12 hours</option>
+                    <option value="1day">1 day</option>
+                </select>
+            </label>
+        </div>
+        <button type="submit">Generate short link!</button>
+    </form>
+
+
+    <small>Made by Guilherme Puida | <a href="https://github.com/guilherme-puida/mks.lol">Source code</a></small>
+</main>
+</body>
+</html>
