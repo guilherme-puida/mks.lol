@@ -35,7 +35,7 @@ type renderData struct {
 
 	// Contains the short url generated.
 	// Should only be set when IsSuccess is true.
-	ShortUrl string
+	ShortUrl template.URL
 
 	// Represents an unsuccessful operation.
 	IsError bool
@@ -50,7 +50,6 @@ type renderData struct {
 type serverOptions struct {
 	url       string
 	port      uint
-	https     bool
 	startTime time.Time
 }
 
@@ -80,11 +79,8 @@ func insertEntry(link string, expiresIn time.Duration) string {
 
 // generateShortUrl generates a complete url based on the service's base url, a slug,
 // and whether the requests are being made over https or http.
-func generateShortUrl(slug string) string {
-	if options.https {
-		return fmt.Sprintf("https://%s/%s", options.url, slug)
-	}
-	return fmt.Sprintf("http://%s/%s", options.url, slug)
+func generateShortUrl(slug string) template.URL {
+	return template.URL(fmt.Sprintf("%s/%s", options.url, slug))
 
 }
 
@@ -174,10 +170,9 @@ func deleteOldEntries() {
 func main() {
 	urlFlag := flag.String("url", "mks.lol", "url used in rendered templates")
 	portFlag := flag.Uint("port", 8080, "port that will listen for all requests")
-	httpsFlag := flag.Bool("https", false, "use https instead of http in rendered templates")
 	flag.Parse()
 
-	options = serverOptions{url: *urlFlag, port: *portFlag, https: *httpsFlag, startTime: time.Now()}
+	options = serverOptions{url: *urlFlag, port: *portFlag, startTime: time.Now()}
 
 	ticker := time.NewTicker(5 * time.Minute)
 
