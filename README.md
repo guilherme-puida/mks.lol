@@ -28,8 +28,6 @@ $ cd mks.lol
 $ go build
 $ ./mks.lol -h
 Usage of ./mks.lol:
-  -https
-    	use https instead of http in rendered templates
   -port uint
     	port that will listen for all requests (default 8080)
   -url string
