@@ -1,6 +1,5 @@
-# mks.lol
 
-A privacy-oriented ephemeral link shortener.
+<img src=".github/banner.png">
 
 ---
 
