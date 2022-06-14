@@ -36,6 +36,16 @@ func (d Database) Insert(link string, expiresIn time.Duration) string {
 	return slug
 }
 
+func (d Database) Get(slug string) (string, bool) {
+	entry, ok := d[slug]
+
+	if !ok {
+		return "", false
+	}
+
+	return entry.Link, true
+}
+
 func (d Database) Purge() int {
 	purged := 0
 
