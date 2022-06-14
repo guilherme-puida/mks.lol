@@ -108,9 +108,23 @@ func requestHandler(w http.ResponseWriter, r *http.Request) {
 	} else if r.Method == http.MethodPost {
 		switch r.URL.Path {
 		case "/":
-			r.ParseForm()
+			err := r.ParseForm()
+
+			if err != nil {
+				indexTemplate.Execute(w, renderData{IsError: true, ErrorMessage: "Error parsing form data",
+					BaseUrl: options.url})
+				return
+			}
+
 			form := r.Form
 			link := form.Get("link")
+
+			if link == "" {
+				indexTemplate.Execute(w, renderData{IsError: true, ErrorMessage: "Empty link in form data",
+					BaseUrl: options.url})
+				return
+			}
+
 			expiresIn := form.Get("expiresIn")
 			slug := insertEntry(link, durationMap[expiresIn])
 			indexTemplate.Execute(w, renderData{IsSuccess: true, ShortUrl: generateShortUrl(slug),
