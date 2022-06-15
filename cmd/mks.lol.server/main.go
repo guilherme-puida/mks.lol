@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"time"
 
 	"github.com/guilherme-puida/mks.lol/internal/database"
 	"github.com/guilherme-puida/mks.lol/internal/handler"
@@ -35,6 +36,17 @@ func readEnv() env {
 func main() {
 	mux := http.NewServeMux()
 	db := database.New()
+
+	ticker := time.NewTicker(time.Second)
+
+	go func() {
+		for {
+			select {
+			case <-ticker.C:
+				db.Purge()
+			}
+		}
+	}()
 
 	e := readEnv()
 

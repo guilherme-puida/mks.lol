@@ -54,7 +54,7 @@ func (d Database) Purge() int {
 	purged := 0
 
 	for k, v := range d {
-		if v.createdAt.Add(v.expiresIn).Before(now()) {
+		if now().After(v.createdAt.Add(v.expiresIn)) {
 			purged++
 			delete(d, k)
 		}
