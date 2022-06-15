@@ -1,2 +1,6 @@
 .idea/
 mks.lol
+mks.lol.server
+!mks.lol.server/
+!mks.lol/
+bin/

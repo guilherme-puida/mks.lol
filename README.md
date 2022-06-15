@@ -25,11 +25,13 @@ There is a public instance running at [https://mks.lol/](https://mks.lol/), and 
 ```shell
 $ git clone https://github.com/guilherme-puida/mks.lol.git
 $ cd mks.lol
-$ go build
-$ ./mks.lol -h
-Usage of ./mks.lol:
-  -port uint
-    	port that will listen for all requests (default 8080)
-  -url string
-    	url used in rendered templates (default "mks.lol")
 ```
+
+Now, if you have [just](https://github.com/casey/just) installed, just run `just build-server`.
+See the justfile for more information about building manually (just run the commands in `build-server`).
+
+### Running
+
+The service is configured via Environment Variables.
+There is a sample [.env file](./.env) pre-configured to run mks.lol locally.
+When running via `just run-server`, the variables defined there are automatically exported to the environment.

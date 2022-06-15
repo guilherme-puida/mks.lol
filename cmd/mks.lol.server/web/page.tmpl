@@ -12,7 +12,7 @@
 
 <main class="container">
     <hgroup>
-        <h1>{{ .BaseUrl }}</h1>
+        <h1>{{ .Name }}</h1>
         <h2>ephemeral link shortener</h2>
     </hgroup>
 
@@ -53,7 +53,13 @@
         <button type="submit">Generate short link!</button>
     </form>
 
+    {{ if .ShouldRenderStats }}
+    <div>
+        <small>Uptime: {{ .Uptime }} | Entries in database: {{ .DatabaseLength }}</small>
+    </div>
+    {{ end }}
 
+    <hr>
     <small>Made by Guilherme Puida | <a href="https://github.com/guilherme-puida/mks.lol">Source code</a></small>
 </main>
 </body>
