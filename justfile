@@ -1,12 +1,23 @@
-alias b := build
-alias d := dev
+set dotenv-load
 
-build:
-    CGO_ENABLED=0 go build
+bin := "./bin"
+server := "mks.lol.server"
 
-dev: build
-    echo "Service starting at http://localhost:8080/"
-    ./mks.lol -url localhost:8080 -port 8080
+default:
+    just --list
 
-serve: build
-    ./mks.lol -https
+# Builds the server binary
+build-server:
+    mkdir -p {{bin}}
+    cd {{bin}}
+    go build -v ./cmd/{{server}}
+    mv {{server}} {{bin}}
+    @echo "Server executable built to {{bin}}/{{server}}"
+
+# Starts the server.
+run-server: build-server
+    @echo "Starting server..."
+    {{bin}}/{{server}}
+
+clean:
+    rm -rf {{bin}}

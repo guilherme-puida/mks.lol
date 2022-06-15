@@ -36,9 +36,13 @@ func (d Database) Insert(link string, expiresIn time.Duration) string {
 	return slug
 }
 
+func (d Database) InsertFixed(slug, link string, expiresIn time.Duration) Database {
+	d[slug] = Entry{Link: link, createdAt: now(), expiresIn: expiresIn}
+	return d
+}
+
 func (d Database) Get(slug string) (string, bool) {
 	entry, ok := d[slug]
-
 	if !ok {
 		return "", false
 	}
