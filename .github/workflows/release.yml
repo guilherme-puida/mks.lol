@@ -4,7 +4,7 @@ on:
     
 jobs:
   releases-matrix:
-    name: Release mks.lol binaries
+    name: Release Binaries
     runs-on: ubuntu-latest
     strategy:
       matrix:
