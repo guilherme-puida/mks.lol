@@ -10,8 +10,7 @@ default:
 build-server:
     mkdir -p {{bin}}
     cd {{bin}}
-    go build -v ./cmd/{{server}}
-    mv {{server}} {{bin}}
+    go build -v -o {{bin}}/ ./cmd/{{server}}
     @echo "Server executable built to {{bin}}/{{server}}"
 
 # Starts the server.
