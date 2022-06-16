@@ -35,3 +35,7 @@ See the justfile for more information about building manually (just run the comm
 The service is configured via Environment Variables.
 There is a sample [.env file](./.env) pre-configured to run mks.lol locally.
 When running via `just run-server`, the variables defined there are automatically exported to the environment.
+
+To disable statistics, set the `MKS_SHOULD_RENDER_STATS` to `no`, `false` or `0` (case-insensitive).
+
+There is also a [Dockerfile](./deployments/mks.lol.server/Dockerfile) to build `mks.lol` to a distroless image.
