@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/guilherme-puida/mks.lol/internal/database"
@@ -28,9 +29,17 @@ type env struct {
 func readEnv() env {
 	url := os.Getenv("MKS_URL")
 	port, _ := strconv.ParseUint(os.Getenv("MKS_PORT"), 10, 64)
-	_, shouldRenderStats := os.LookupEnv("MKS_SHOULD_RENDER_STATS")
+	shouldRenderStats := strings.ToLower(os.Getenv("MKS_SHOULD_RENDER_STATS"))
 
-	return env{url, uint(port), shouldRenderStats}
+	var shouldRender bool
+	switch shouldRenderStats {
+	case "", "no", "false", "0":
+		shouldRender = false
+	default:
+		shouldRender = true
+	}
+
+	return env{url, uint(port), shouldRender}
 }
 
 func main() {
@@ -53,7 +62,7 @@ func main() {
 	h := handler.New(
 		e.url,
 		e.port,
-		true,
+		e.shouldRenderStats,
 		db,
 		pageTemplate,
 		favicon,
