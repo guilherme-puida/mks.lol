@@ -130,6 +130,7 @@ func getDurationFromStr(str string) time.Duration {
 		"6h":    6 * time.Hour,
 		"12h":   12 * time.Hour,
 		"1day":  24 * time.Hour,
+		"1week": 7 * 24 * time.Hour,
 	}[str]
 
 	if !ok {
